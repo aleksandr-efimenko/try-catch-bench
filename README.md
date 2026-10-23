@@ -21,6 +21,7 @@ Does `try`/`catch` make code slow? A hot loop timed three ways in Node and Pytho
 ## Caveats
 
 - The loop body is deliberately tiny, which is the worst case for `try`: any overhead would show.
+- The guarded loop body cannot throw, so V8 may drop the `try` entirely. That also holds for real code whose body doesn't throw; the throwing variants show the handler works.
 - The throw is caught in the same function, the shallowest stack. Deeper stacks make a Node `Error` costlier, up to `Error.stackTraceLimit` (10) frames.
 - Python's JIT is off (the default build). One machine, one run: treat the figures as relative.
 
